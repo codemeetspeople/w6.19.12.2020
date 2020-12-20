@@ -96,3 +96,30 @@ INSERT INTO "item" (item_title, item_price, category_id) VALUES
 -- 17. Выбрать наименование самого дешевого товара.
 -- 18. Выбрать количество всех товаров.
 -- 19. Выбрать среднюю цену всех товаров.
+
+DROP TABLE IF EXISTS "category";
+CREATE TABLE IF NOT EXISTS "category" (
+    id SERIAL PRIMARY KEY NOT NULL,
+    title VARCHAR(100) NOT NULL UNIQUE
+);
+
+DROP TABLE IF EXISTS "item";
+CREATE TABLE IF NOT EXISTS "item" (
+    id SERIAL PRIMARY KEY NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    price DECIMAL(8, 2) NOT NULL,
+    category_id INTEGER NOT NULL REFERENCES "category"(id) ON DELETE RESTRICT,
+    UNIQUE(category_id, title)
+);
+
+INSERT INTO "category" (title) VALUES ('smartphones'), ('tablets'), ('PC');
+INSERT INTO "item" (title, price, category_id) VALUES
+('iPhone', 999.99, 1),
+('Samsung Galaxy', 799.99, 1),
+('iPad', 1999.99, 2),
+('Lenovo', 199.99, 2),
+('MacBook Pro', 4999.99, 3),
+('Sony', 999.99, 3);
+
+INSERT INTO "item" (title, price, category_id) VALUES
+('iPhone', 999.99, 4);
