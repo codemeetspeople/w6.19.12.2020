@@ -2,7 +2,9 @@ import psycopg2
 from psycopg2 import pool
 
 
-ALL_STMT = 'select * from {tablename}'
+ALL_STMT = 'SELECT * FROM {tablename}'
+ONE_STMT = 'SELECT * FROM {tablename} WHERE id = %s'
+INSERT_STMT = 'INSERT INTO {tablename} ({fields}) VALUES ({values}) RETURNING id'
 
 
 connection_pool = None
