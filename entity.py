@@ -3,6 +3,7 @@ from db import (
     ALL_STMT, ONE_STMT, INSERT_STMT
 )
 from psycopg2.extras import RealDictCursor
+import psycopg2.extensions
 
 class Entity:
     connection_pool = get_connection_pool()
@@ -71,6 +72,9 @@ class Entity:
     @classmethod
     def get_cursor(cls):
         connection = cls.connection_pool.getconn()
+        connection.set_isolation_level(
+            psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT
+        )
         return connection.cursor(cursor_factory=RealDictCursor)
 
     @classmethod
